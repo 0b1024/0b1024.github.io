@@ -27,15 +27,16 @@
 
 		var nextyear = month + '/' + day + '/' + year + ' 07:07:07';
 
-		$('.countdown').countdown({
-			date: nextyear, // TODO Date format: 07/27/2017 17:00:00
-			offset: +2, // TODO Your Timezone Offset
-			day: 'Day',
-			days: 'Days',
-			hideOnComplete: true
-		}, function (container) {
-			alert('Done!');
-		});
+        $('.countdown').countdown({
+                    date: '09/03/2021 17:00:00',
+                    offset: +6,
+                    day: 'Day',
+                    days: 'Days',
+                    hideOnComplete: true
+                }, function (container) {
+                    alert('Done!');
+        });
+
 	</script>
 
 	<ul id="buttons">
