@@ -1,29 +1,43 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-
-<style>
-
-</style>
+	<meta charset="UTF-8">
+	<title>jQuery Countdown Clock Plugin</title>
+	<link type="text/css" href="demo.css" rel="stylesheet">
+	<link type="text/css" href="./jquery.countdown.css" rel="stylesheet">
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script type="text/javascript" src="./jquery.countdown.min.js"></script>
 </head>
 <body>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
-  $('#countdown').timeTo({
-    timeTo: new Date(new Date('Fri Sep 03 2021 09:00:00 GMT+0900 (대한민국 표준시)')),
-    displayDays: 2,
-    theme: "black",
-    displayCaptions: true,
-    fontSize: 48,
-    captionSize: 14
-});
-alert('hi');
-    </script>
-    
-    
-    
+	<ul id="example">
+		<li><span class="days">00</span><p class="days_text">Days</p></li>
+		<li class="seperator">:</li>
+		<li><span class="hours">00</span><p class="hours_text">Hours</p></li>
+		<li class="seperator">:</li>
+		<li><span class="minutes">00</span><p class="minutes_text">Minutes</p></li>
+		<li class="seperator">:</li>
+		<li><span class="seconds">00</span><p class="seconds_text">Seconds</p></li>
+	</ul>
+
+	<script class="source" type="text/javascript">
+		var now = new Date();
+		var day = now.getDate();
+		var month = now.getMonth() + 1;
+		var year = now.getFullYear() + 1;
+
+		var nextyear = month + '/' + day + '/' + year + ' 07:07:07';
+
+		$('#example').countdown({
+			date: nextyear, // TODO Date format: 07/27/2017 17:00:00
+			offset: +2, // TODO Your Timezone Offset
+			day: 'Day',
+			days: 'Days',
+			hideOnComplete: true
+		}, function (container) {
+			alert('Done!');
+		});
+	</script>
+
+
 </body>
 </html>
