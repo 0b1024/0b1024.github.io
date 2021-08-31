@@ -1,48 +1,80 @@
 <!doctype html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>jQuery Countdown Clock Plugin</title>
-	<link type="text/css" href="demo.css" rel="stylesheet">
-	<link type="text/css" href="../jquery.countdown.css" rel="stylesheet">
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-	<script type="text/javascript" src="../jquery.countdown.min.js"></script>
-</head>
-<body>
-	<ul id="example">
-		<li><span class="days">00</span><p class="days_text">Days</p></li>
-		<li class="seperator">:</li>
-		<li><span class="hours">00</span><p class="hours_text">Hours</p></li>
-		<li class="seperator">:</li>
-		<li><span class="minutes">00</span><p class="minutes_text">Minutes</p></li>
-		<li class="seperator">:</li>
-		<li><span class="seconds">00</span><p class="seconds_text">Seconds</p></li>
-	</ul>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Countdown</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="./dest/jquery.countdown.js"></script>
 
-	<script type="text/javascript">
-		var now = new Date();
-		var day = now.getDate();
-		var month = now.getMonth() + 1;
-		var year = now.getFullYear() + 1;
+    <link rel="stylesheet" type="text/css" href="style.css" media="screen">
 
-		var nextyear = month + '/' + day + '/' + year + ' 07:07:07';
+    <script type="text/javascript">
+      $(function() {
+        var endDate = "September 3, 2021 15:03:25";
 
-        $('.countdown').countdown({
-                    date: '09/03/2021 17:00:00',
-                    offset: +6,
-                    day: 'Day',
-                    days: 'Days',
-                    hideOnComplete: true
-                }, function (container) {
-                    alert('Done!');
+        $('.countdown.simple').countdown({ date: endDate });
+
+        $('.countdown.styled').countdown({
+          date: endDate,
+          refresh:10,
+          render: function(data) {
+            $(this.el).html("<div>" + this.leadingZeros(data.days, 3) + " <span>일</span></div><div>" + this.leadingZeros(data.hours, 2) + " <span>시간</span></div><div>" + this.leadingZeros(data.min, 2) + " <span>hrs</span></div><div>" + this.leadingZeros(data.sec, 2) + " <span>min</span></div><div>" + this.leadingZeros(Math.floor(data.millisec),3) + " <span>sec</span></div>");
+          }
         });
 
-	</script>
+        $('.countdown.callback').countdown({
+          date: +(new Date) + 10000,
+          render: function(data) {
+            $(this.el).text(this.leadingZeros(data.sec, 2) + " sec");
+          },
+          onEnd: function() {
+            $(this.el).addClass('ended');
+          }
+        }).on("click", function() {
+          $(this).removeClass('ended').data('countdown').update(+(new Date) + 10000).start();
+        });
 
-	<ul id="buttons">
-		<li><a href="https://epiksel.github.io/countdown" class="btn download">Download</a></li>
-		<li><a href="https://openix.io/en/product/preview?pid=57" class="btn download">OpenCart Extension</a></li>
-		<li><a href="https://github.com/epiksel/countdown" class="btn forkme">Fork Me</a></li>
-	</ul>
+        // End time for diff purposes
+        var endTimeDiff = new Date().getTime() + 15000;
+        // This is server's time
+        var timeThere = new Date();
+        // This is client's time (delayed)
+        var timeHere = new Date(timeThere.getTime() - 5434);
+        // Get the difference between client time and server time
+        var diff_ms = timeHere.getTime() - timeThere.getTime();
+        // Get the rounded difference in seconds
+        var diff_s = diff_ms / 1000 | 0;
+        
+        var notice = [];
+        /*
+        notice.push('Server time: ' + timeThere.toDateString() + ' ' + timeThere.toTimeString());
+        notice.push('Your time: ' + timeHere.toDateString() + ' ' + timeHere.toTimeString());
+        notice.push('Time difference: ' + diff_s + ' seconds (' + diff_ms + ' milliseconds to be precise). Your time is a bit behind.');
+       */ 
+        $('.offset-notice').html(notice.join('<br />'));
+        
+        $('.offset-server .countdown').countdown({
+          date: endTimeDiff,
+          offset: diff_s * 1000,
+          onEnd: function() {
+            $(this.el).addClass('ended');
+          }
+        });
+        
+        $('.offset-client .countdown').countdown({
+          date: endTimeDiff,
+          onEnd: function() {
+            $(this.el).addClass('ended');
+          }
+        });
+
+      });
+    </script>
+  </head>
+<body>
+    <div class="container">
+
+      <div class="countdown styled"></div>
+  </div>
 </body>
 </html>
