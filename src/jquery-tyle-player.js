@@ -121,8 +121,8 @@
                 height = $player.data('height');
             // var ratio = width / height;
             $player.css({
-                'max-width' : width+'px',
-                'max-height' : height+'px'
+                'max-width' : width+'%',
+                'max-height' : height+'%'
             });
         },
 
